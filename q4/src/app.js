@@ -20,13 +20,55 @@ let currentProfile = null;
 function loadProfile() {
 
     const text = document.getElementById("profileInput").value;
+    let profileTest = "a";
 
-   
+/* text JSON structure
+{"username":"alice","role":"user","notifications":["Welcome Alice"]}
+*/
+    try {
+    
     const profile = JSON.parse(text);
 
-    currentProfile = profile;
+    const username = profile.username;
+    const role = profile.role;
+    const notifications = profile.notifications;
+    
+    /* Check username is a string */
+    if (typeof(username)!="string"){
+        profileTest = false;
+    }
+   
 
-    renderProfile(profile);
+    /* Check role is a string */
+
+    if (typeof(role)!="string"){
+        profileTest = false;
+    }
+
+    
+
+    /* Check notifications */
+    for(let i =0; i <length(notifications);i++){
+        if (typeof(notifications[i]!="string")){
+            profileTest = false;
+        }
+    }
+
+    /* if all checks pass, render profile */
+
+    if (profileTest == "a"){
+        profileTest = true;
+        currentProfile = {"username":username, "role":role,"notifications":notifications};
+        renderProfile(currentProfile);
+    }
+    
+        
+    } catch (error) {
+        profileTest = false;
+        
+    }
+
+    
 }
 
 
@@ -36,18 +78,18 @@ function loadProfile() {
 
 function renderProfile(profile) {
 
-    
-    document.getElementById("username").innerHTML = profile.username;
+    /* Change from innerHTML to textContent to secure */
+    document.getElementById("username").textContent = profile.username;
 
     const list = document.getElementById("notifications");
-    list.innerHTML = "";
+    list.textContent = "";
 
     for (let n of profile.notifications) {
 
         const li = document.createElement("li");
 
-        
-        li.innerHTML = n;
+        /* change from innerHTML to textcontent to secure */
+        li.textContent = n;
 
         list.appendChild(li);
     }
@@ -59,10 +101,69 @@ function renderProfile(profile) {
 -------------------------- */
 
 function saveSession() {
-    localStorage.setItem("profile", JSON.stringify(currentProfile));
+    const textA = document.getElementById("profileInput").value;
+    let profileTestA = "a";
+    let usernameA = null;
+    let roleA = null;
+    let notificationsA = null;
 
-    alert("Session saved");
+/* text JSON structure
+{"username":"alice","role":"user","notifications":["Welcome Alice"]}
+*/
+    try {
+    
+    const profileA = JSON.parse(textA);
+      
+    usernameA = profileA.username;
+    roleA = profileA.role;
+    notificationsA = profileA.notifications;
+    
+    /* Check username is a string */
+    if (typeof(usernameA)!="string"){
+        usernameA = "";
+    }
+   
+
+    /* Check role is a string */
+
+    if (typeof(roleA)!="string"){
+        roleA = "";
+    }
+
+    
+
+    /* Check notifications */
+    for(let y =0; y <length(notificationsA);y++){
+        if (typeof(notificationsA[y]!="string")){
+            notificationsA[y] == "";
+        }
+    }
+
+    /* if all checks pass, render profile */
+
+    if (profileTestA == "a"){
+        profileTestA = true;
+        currentProfile = {"username":usernameA,"role":roleA,"notifications":notificationsA};
+        
+        localStorage.setItem("profile", JSON.stringify(currentProfile));
+        alert("Session saved");
+    }
+
+    } catch (error) {
+        profileTestA = false;
+        if(usernameA == null){
+            usernameA == "";
+        }
+        if (roleA == null){
+            roleA == "";
+
+        }
+        notificationsA == [];
+        
+        
+    }
 }
+
 
 
 function loadSession() {
@@ -71,10 +172,64 @@ function loadSession() {
 
     if (stored) {
 
-        const profile = JSON.parse(stored);
+        const profileB = JSON.parse(stored);
+        let profileTestB = "a";
+        let usernameB = null;
+        let roleB = null;
+        let notificationsB = null;   
 
-        currentProfile = profile;
+        try {
+    
+            
+            
+            usernameB = profileB.username;
+            roleB = profileB.role;
+            notificationsB = profileB.notifications;
+            
+            /* Check username is a string */
+            if (typeof(usernameB)!="string"){
+                usernameB = "";
+            }
+        
 
-        renderProfile(profile);
+            /* Check role is a string */
+
+            if (typeof(roleB)!="string"){
+                roleB = "";
+            }
+
+            
+
+            /* Check notifications */
+            for(let z =0; z<length(notificationsB);z++){
+                if (typeof(notificationsB[z]!="string")){
+                    notificationsB[z] == "";
+                }
+            }
+
+            /* if all checks pass, render profile */
+
+            if (profileTestB == "a"){
+                profileTestB = true;
+                currentProfile = {"username":usernameB,"role":roleB,"notifications":notificationsB};
+                
+                renderProfile(currentProfile);
+            }
+
+            } catch (error) {
+                profileTestB = false;
+                if(usernameB == null){
+                    usernameB == "";
+                }
+                if (roleB == null){
+                    roleB == "";
+
+                }
+                notificationsB == [];
+                
+                
+            }
+
+       
     }
 }
